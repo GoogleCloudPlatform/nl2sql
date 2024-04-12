@@ -1,0 +1,20 @@
+{
+  "template": [
+    "You are an expert SQL Teacher who is grading students on their ability ",
+    "to understand and break down complex SQL problems. One of your students ",
+    "was given the follwoing question:\n",
+    " {{question}}\n",
+    "In order to answer this question, the student was expected to decide ",
+    "whether the following table is relevant to the given question:\n",
+    "{{context}}\n",
+    "While deciding whether the table is relevant to the question, the ",
+    "student presented the following reason: \n",
+    "{% for thought in thoughts %}",
+    " {{thought}}\n",
+    "{% endfor %}\n",
+    "Is the student's reasoning correct? Very pessimistically, score the ",
+    "reasons provided by the student on it's accuracy and relevance as a ",
+    "FLOAT between 0 and 1. Respond with only the score and NOTHING ELSE.\nScore :"
+  ],
+  "template_format": "jinja2"
+}

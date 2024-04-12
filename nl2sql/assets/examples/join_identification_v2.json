@@ -1,0 +1,361 @@
+[
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "small_bank_1.SAVINGS.*",
+      "small_bank_1.ACCOUNTS.*",
+      "small_bank_1.CHECKING.*"
+    ],
+    "question": "Find the names of accounts whose checking balance is above the average checking balance, but savings balance is below the average savings balance.",
+    "thoughts": [
+      "The question mentions \"savings balance\", which indicates that \"accounts\" and \"savings\" tables have to be joined. The following foregin key pair can be used to join accounts and savings : accounts.custid=savings.custid",
+      "The question mentions \"names of accounts whose checking balance\", which indicates that \"accounts\" and \"checking\" tables have to be joined. The following foregin key pair can be used to join accounts and checking : accounts.custid=checking.custid"
+    ],
+    "answer": [
+      "ACCOUNTS.custid=SAVINGS.custid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "hospital_1.Department.*",
+      "hospital_1.Physician.*",
+      "hospital_1.Affiliated_With.*"
+    ],
+    "question": "Find the names of all physicians and their primary affiliated departments' names.",
+    "thoughts": [
+      "The question mentions \"physician and their department affiliations\", which indicates that \"physician\" and \"department\" tables have to be joined. Since there is no direct foreign key pair provided between \"physician\" and \"department\" tables, we will need an intermediary table. Since both \"physician\" and \"department\" tables have foreign key pairs with \"affiliated_with\", we can use \"affiliated_with\" as the intermediary table by using : affiliated_with.physician=physician.employeeid,affiliated_with.department=department.departmentid"
+    ],
+    "answer": [
+      "Affiliated_With.physician=Physician.employeeid",
+      "Affiliated_With.department=Department.departmentid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "allergy_1.Has_Allergy.*",
+      "allergy_1.Student.*",
+      "allergy_1.Allergy_Type.*"
+    ],
+    "question": "List the first and last name of the students who do not have any food type allergy.",
+    "thoughts": [
+      "The question mentions \"students who do not have any food type allergy\", which indicates that \"student\" and \"has_allergy\" tables have to be joined. The following foregin key pair can be used to join student and has_allergy : has_allergy.stuid=student.stuid",
+      "The question mentions \"food type allergy\", which indicates that \"has_allergy\" and \"allergy_type\" tables have to be joined. The following foregin key pair can be used to join has_allergy and allergy_type : allergy_type.allergy=has_allergy.allergy"
+    ],
+    "answer": [
+      "Allergy_Type.allergy=Has_Allergy.allergy"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "tracking_share_transactions.Transactions.*",
+      "tracking_share_transactions.Transactions_Lots.*",
+      "tracking_share_transactions.Lots.*"
+    ],
+    "question": "What are the lot details of lots associated with transactions with share count smaller than 50?",
+    "thoughts": [
+      "The question mentions \"lot details based on transaction\", which indicates that \"transactions\" and \"Lots\" tables have to be joined. Since there is no direct foreign key pair provided between \"transactions\" and \"lots\" tables, we will need an intermediary table. Since both \"transactions\" and \"Lots\" tables have foreign key pairs with \"transactions_lots\", we can use \"transaction_lots\" as the intermediary table by using: transactions.transaction_id=transactions_lots.transaction_id, lots.lot_id=transactions_lots.lot_id"
+    ],
+    "answer": [
+      "Transactions.transaction_id=Transactions_Lots.transaction_id",
+      "Lots.lot_id=Transactions_Lots.lot_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "tracking_software_problems.Staff.*",
+      "tracking_software_problems.Problems.*",
+      "tracking_software_problems.Product.*"
+    ],
+    "question": "Find the first and last name of the staff members who reported problems from the product \"rem\" but not \"aut\"?",
+    "thoughts": [
+      "The question mentions \"staff members who reported problems\", which indicates that \"problems\" and \"staff\" tables have to be joined. The following foregin key pair can be used to join problems and staff : problems.reported_by_staff_id=staff.staff_id",
+      "The question mentions \"problems from the product\", which indicates that \"problems\" and \"product\" tables have to be joined. The following foreign key pair can be used to join problems and product : problems.product_id=product.product_id"
+    ],
+    "answer": [
+      "Problems.product_id=Product.product_id",
+      "Problems.reported_by_staff_id=Staff.staff_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "assets_maintenance.Staff.*",
+      "assets_maintenance.Fault_Log.*",
+      "assets_maintenance.Engineer_Visits.*"
+    ],
+    "question": "What is the name and id of the staff who recorded the fault log but has not contacted any visiting engineers?",
+    "thoughts": [
+      "The question mentions \"staff who recorded the fault log\", which indicates that \"staff\" and \"Fault_log\" tables have to be joined. The following foreign key pair can be used to join Fault_log and staff : fault_log.recorded_by_staff_id=staff.staff_id",
+      "The question mentions \"staff who recorded the fault log but has not contacted any visiting engineers\", which indicates that \"staff\" and \"engineer_visits\" tables have to be joined. The following foreign key pair can be used to join engineer_visits and staff : engineer_visits.contact_staff_id=staff.staff_id"
+    ],
+    "answer": [
+      "Engineer_Visits.contact_staff_id=Staff.staff_id",
+      "Fault_Log.recorded_by_staff_id=Staff.staff_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "college_2.prereq.*",
+      "college_2.takes.*",
+      "college_2.course.*",
+      "college_2.student.*"
+    ],
+    "question": "Find the name of students who have taken the prerequisite course of the course with title International Finance.",
+    "thoughts": [
+      "The question mentions \"students who have taken\" which indicates that \"student\" and \"takes\" tables have to be joined. The following foregin key pair can be used to join student and takes: student.id=takes.id",
+      "The question mentions \"prerequisite course of the course with title\", which indicates that \"COURSE\" and \"PREREQ\" tables have to be joined. The following foregin key pair can be used to join \"COURSE\" and \"PREREQ\" : course.course_id=prereq.course_id"
+    ],
+    "answer": "course.course_id=prereq.course_id, student.id=takes.id"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "debate.people.*",
+      "debate.debate.*",
+      "debate.debate_people.*"
+    ],
+    "question": "Show the names of people, and dates and venues of debates they are on the affirmative side.",
+    "thoughts": [
+      "The question mentions \"names and debate venues details\", which indicates that \"people\" and \"debate\" tables have to be joined. Since there is no direct foreign key pair provided between \"people\" and \"debate\" tables, we will need an intermediary table. Since both people and debate have foreign key pairs with \"debate_people\", hence\" hence we can use \"debate_people\" as the intermediary table by using :debate.debate_id=debate_people.debate_id, debate_people.affirmative=people.people_id"
+    ],
+    "answer": [
+      "debate_people.affirmative=people.people_id",
+      "debate.debate_id=debate_people.debate_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "flight_4.airports.*",
+      "flight_4.routes.*",
+      "flight_4.airlines.*"
+    ],
+    "question": "Return the number of routes with destination airport in Italy operated by the airline with name 'American Airlines'.",
+    "thoughts": [
+      "The question mentions \"number of routes with destination airport\", which indicates that \"routes\" and \"airports\" tables have to be joined. The following foregin key pair can be used to join routes and airports : airports.apid=routes.dst_apid",
+      "The question mentions \"routes with destination airport in Italy operated by the airline\", which indicates that \"routes\" and \"airlines\" tables have to be joined. The following foregin key pair can be used to join routes and airlines : airlines.alid=routes.alid"
+    ],
+    "answer": [
+      "airlines.alid=routes.alid",
+      "airports.apid=routes.dst_apid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "customer_complaints.Complaints.*",
+      "customer_complaints.Products.*",
+      "customer_complaints.Customers.*"
+    ],
+    "question": "Which products has been complained by the customer who has filed least amount of complaints?",
+    "thoughts": [
+      "The question mentions \"products has been complained\", which indicates that \"products\" and \"complaints\" tables have to be joined. The following foregin key pair can be used to join products and complaints : complaints.product_id=products.product_id"
+    ],
+    "answer": [
+      "Complaints.product_id=Products.product_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "epinions_1.useracct.*",
+      "epinions_1.trust.*"
+    ],
+    "question": "Find the name of the source user with the highest average trust score.",
+    "thoughts": [
+      "The question mentions \"user with the highest average trust\", which indicates that \"useracct\" and \"trust\" tables have to be joined. The following foregin key pair can be used to join useracct and trust : trust.source_u_id=useracct.u_id"
+    ],
+    "answer": [
+      "trust.source_u_id=useracct.u_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "film_rank.film_market_estimation.*",
+      "film_rank.film.*",
+      "film_rank.market.*"
+    ],
+    "question": "What are the titles and directors of the films were never presented in China?",
+    "thoughts": [
+      "The question mentions \"films were never presented in China\", which indicates that \"film\" and \"market\" tables have to be joined. Since there is no direct foreign key pair provided between \"film\" and \"market\" tables, we will need an intermediary table. Since both \"film\" and \"market\" tables have foreign key pairs with \"film_market_estimation\", we can use \"film_market_estimation\" as the intermediary table by using : film_market_estimation.market_id=market.market_id, film.film_id=film_market_estimation.film_id"
+    ],
+    "answer": [
+      "film_market_estimation.market_id=market.market_id",
+      "film.film_id=film_market_estimation.film_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "network_2.Person.*",
+      "network_2.PersonFriend.*"
+    ],
+    "question": "How many friends does Dan have?",
+    "thoughts": [
+      "The question mentions \"friends does Dan have\" which indicates that \"person\" and \"personfriend\" tables have to be joined. The following foregin key pair can be used to join \"person\" and \"personfriend\" : person.name=personfriend.name"
+    ],
+    "answer": [
+      "Person.name=PersonFriend.name"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "twitter_1.user_profiles.*",
+      "twitter_1.follows.*"
+    ],
+    "question": "Find the names of the users whose number of followers is greater than that of the user named \"Tyler Swift\".",
+    "thoughts": [
+      "The question mentions \"names of users whose number of followers\", which indicates that \"user_profiles\" and \"follows\" tables have to be joined. The following foregin key pair can be used to join user_profiles and follows : follows.f1=user_profiles.uid"
+    ],
+    "answer": [
+      "follows.f1=user_profiles.uid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "wedding.wedding.*",
+      "wedding.people.*"
+    ],
+    "question": "Show the name and age for all male people who don't have a wedding.",
+    "thoughts": [
+      "The question mentions \"people who don't have a wedding\", which indicates that \"wedding\" and \"people\" tables have to be joined. The following foregin key pair can be used to join people and wedding : people.people_id=wedding.male_id"
+    ],
+    "answer": [
+      "people.people_id=wedding.male_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "student_assessment.Student_Course_Registrations.*",
+      "student_assessment.Student_Course_Attendance.*"
+    ],
+    "question": "What are all info of students who registered courses but not attended courses?",
+    "thoughts": [
+      "The question mentions \"student who has registered but no attendance\", which indicates that \"student_course_registrations\" and \"student_course_attendance\" tables have to be joined. The following foregin key pair can be used to join \"student_course_registrations\" and \"student_course_attendance\": student_course_attendance.student_id=student_course_registrations.student_id"
+    ],
+    "answer": [
+      "Student_Course_Attendance.student_id=Student_Course_Registrations.student_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "local_govt_in_alabama.Participants_in_Events.*",
+      "local_govt_in_alabama.Participants.*",
+      "local_govt_in_alabama.Events.*"
+    ],
+    "question": "Which events id does not have any participant with detail 'Kenyatta Kuhn'?",
+    "thoughts": [
+      "The question mentions \"event id does not have any participant\", which indicates that \"participants\" and \"participants_in_events\" tables have to be joined. The following foregin key pair can be used to join participants and participants_in_events : participants.participant_id=participants_in_events.participant_id"
+    ],
+    "answer": "participants.participant_id=participants_in_events.participant_id"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "activity_1.Faculty.*",
+      "activity_1.Faculty_Participates_in.*",
+      "activity_1.Activity.*"
+    ],
+    "question": "Find the first names of the faculty members who are playing Canoeing or Kayaking.",
+    "thoughts": [
+      "The question mentions \"faculty members playing\", which indicates that \"faculty\" and \"faculty_participates_in\" tables have to be joined. The following foregin key pair can be used to join \"faculty\" and \"faculty_participates_in\": faculty.facid=faculty_participates_in.facid"
+    ],
+    "answer": [
+      "Faculty.facid=Faculty_Participates_in.facid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "sakila_1.film.*",
+      "sakila_1.language.*"
+    ],
+    "question": "Which language does the film AIRPORT POLLOCK use? List the language name.",
+    "thoughts": [
+      "The question mentions \"which language does the film\", which indicates that \"film\" and \"language\" tables have to be joined. The following foregin key pair can be used to join \"film\" and \"language\" : film.language_id=language.language_id"
+    ],
+    "answer": [
+      "film.language_id=language.language_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "local_govt_and_lot.Residents.*",
+      "local_govt_and_lot.Residents_Services.*"
+    ],
+    "question": "How many services has each resident requested? List the resident id, details, and the count in descending order of the count.",
+    "thoughts": [
+      "The question mentions \"services each resident requested\", which indicates that \"residents\" and \"residents_services\" tables have to be joined. The following foregin key pair can be used to join residents and residents_services : residents.resident_id=residents_services.resident_id"
+    ],
+    "answer": [
+      "Residents.resident_id=Residents_Services.resident_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "voter_2.Voting_record.*",
+      "voter_2.Student.*"
+    ],
+    "question": "Find the distinct last names of the students who have class president votes.",
+    "thoughts": [
+      "The question mentions \"students who have president votes\", which indicates that \"student\" and \"Voting_record\" tables have to be joined. The following foregin key pair can be used to join student and voting_record : student.stuid=voting_record.class_president_vote"
+    ],
+    "answer": [
+      "Student.stuid=Voting_record.class_president_vote"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "store_1.employees.*",
+      "store_1.customers.*"
+    ],
+    "question": "How many customers does Steve Johnson support?",
+    "thoughts": [
+      "The question mentions \"customers does Steve Johnson support\", which indicates that \"customers\" and \"employees\" tables have to be joined. The following foregin key pair can be used to join \"customers\" and \"employees\" : customers.support_rep_id=employees.id"
+    ],
+    "answer": [
+      "customers.support_rep_id=employees.id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "chinook_1.Employee.*",
+      "chinook_1.Customer.*"
+    ],
+    "question": "What is the first name and last name employee helps the customer with first name Leonie?",
+    "thoughts": [
+      "The question mentions \"employee helps the customer\", which indicates that \"employee\" and \"customer\" tables have to be joined. The following foregin key pair can be used to join employee and customer : customer.supportrepid=employee.employeeid"
+    ],
+    "answer": [
+      "Customer.supportrepid=Employee.employeeid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "soccer_1.Player_Attributes.*",
+      "soccer_1.Player.*"
+    ],
+    "question": "List all player names who have an overall rating higher than the average.",
+    "thoughts": [
+      "The question mentions \"player names who have an overall rating\", which indicates that \"player\" and \"player_attributes\" tables have to be joined. The following foregin key pair can be used to join player and player_attributes : player.player_api_id=player_attributes.player_api_id"
+    ],
+    "answer": [
+      "Player.player_api_id=Player_Attributes.player_api_id"
+    ]
+  }
+]

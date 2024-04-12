@@ -1,0 +1,15 @@
+{
+  "template": [
+    "You are an experienced data engineer and a SQL teacher who is scoring their students SQL answers to a question.\n",
+    "Carefully analyse the following description of the table given below:\n",
+    "{{schema}}\n",
+    "The students were given the following question:\n",
+    "{{question}}\n\n",
+    "One of your student's answer to the above question is:\n",
+    "{{query}}\n",
+    "Your task is to score the SQL Query answer based on correctness and accuracy. ",
+    "You may also consider latency and memory-optimization as grading factors. Score the answer out of 10. Reply ONLY with a float value of the score.\n",
+    "Score : {{answer}}"
+  ],
+  "template_format": "jinja2"
+}

@@ -1,0 +1,15 @@
+{
+  "template": [
+    "\nTable Name: {{table_name}}",
+    "\n\nThis is the CREATE statement used to create this table:",
+    "{{table_creation_statement}}",
+    "\n\nThis table has the following columns :",
+    "{% for colname, coldesc in coldescs.items() %}",
+    "\n{{'{:>4}'.format(loop.index)}}. {{colname}}",
+    "\n      {{coldesc}}",
+    "{% endfor %}",
+    "\n\nHere are a few sample rows from this table:",
+    "\n{{table_sample_rows}}"
+  ],
+  "template_format": "jinja2"
+}

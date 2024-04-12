@@ -1,0 +1,11 @@
+{
+  "template": [
+    "\n  Table Name: {{table_name}}",
+    "\n  This table has the following columns :",
+    "{% for colname, coldesc in coldescs.items() %}",
+    "\n  {{'{:>4}'.format(loop.index)}}. {{colname}}",
+    "\n        {{coldesc}}",
+    "{% endfor %}"
+  ],
+  "template_format": "jinja2"
+}

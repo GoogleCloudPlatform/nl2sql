@@ -1,0 +1,89 @@
+[tool.poetry]
+name = "nl2sql"
+version = "0.2.0"
+description = ""
+authors = ["Madhup Sukoon <29144316+vagrantism@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+datasets = "^2.14.5"
+sqlalchemy = "1.4.50"
+black = "^23.10.0"
+langchain = "^0.0.334"
+pydantic = "^2.5.1"
+google-cloud = "^0.34.0"
+docker = "^6.1.3"
+pathvalidate = "^3.2.0"
+pyvis = "^0.3.2"
+setuptools = "^68.2.2"
+python-dotenv = "^1.0.0"
+google-cloud-secret-manager = "^2.16.4"
+google-generativeai = "^0.1.0"
+google-cloud-aiplatform = "^1.35.0"
+chromadb = "^0.4.15"
+flax = "^0.7.0"
+gspread = "^5.11.3"
+openpyxl = "^3.1.2"
+tqdm = "^4.66.1"
+sqlalchemy-utils = "^0.41.1"
+psycopg2-binary = "^2.9.9"
+pylint = "^2.17.7"
+pygount = "^1.6.1"
+aenum = "^3.1.15"
+pylint-protobuf = "^0.20.2"
+mypy = "^1.6.1"
+types-tqdm = "^4.66.0.2"
+types-protobuf = "^4.24.0.2"
+hnswlib = "^0.7.0"
+types-openpyxl = "^3.1.0.27"
+loguru = "^0.7.2"
+cython = "^3.0.5"
+pandas-stubs = "^2.1.1.230928"
+sqlalchemy-bigquery = "^1.8.0"
+google-cloud-bigquery-storage = "^2.22.0"
+sqlalchemy2-stubs = "^0.0.2a37"
+sqlglot = "^19.6.0"
+networkx = "^3.2.1"
+networkx-stubs = "^0.0.1"
+py-cpuinfo = "^9.0.0"
+types-requests = "^2.31.0.20240106"
+types-psutil = "^5.9.5.20240106"
+radon = "^6.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.26.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.'MESSAGES CONTROL']
+extension-pkg-whitelist = "pydantic"
+disable=[
+  "too-many-locals",
+  "too-many-ancestors",
+  "too-many-arguments",
+  "too-few-public-methods",
+]
+
+[tool.pylint.MAIN]
+load-plugins = [
+  "pylint_protobuf",
+]
+
+[tool.pylint.MASTER]
+ignore-paths = 'tests'
+
+[[tool.mypy.overrides]]
+module = [
+    "aenum",
+    "datasets",
+    "scipy.*",
+    "google",
+    "google.*",
+    "cpuinfo",
+    "cpuinfo.*",
+]
+ignore_missing_imports = true

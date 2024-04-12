@@ -1,0 +1,259 @@
+[
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "department_management.*.*"
+    ],
+    "question": "How many heads of the departments are older than 56 ?",
+    "thoughts": [
+      "The question asks for the number of heads of departments who are older than 56. This means that we need to query the \"head\" table. The relevant columns from the \"head\" table are \"head_ID\", \"name\", \"born_state\", and \"age\".",
+      "In order to find the heads of departments who are older than 56, we need to filter the results to only include heads who have an age greater than 56. We can do this using a WHERE clause on the column \"age\" of the table \"head\".",
+      "Finally, we need to count the number of heads who meet the criteria. We can do this using a COUNT(*) function."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM head AS head\nWHERE\n  head.age > 56"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "farm.*.*"
+    ],
+    "question": "How many farms are there?",
+    "thoughts": [
+      "The question asks for the number of farms. This means that we need to count the number of rows in the \"farm\" table.",
+      "We can do this using the COUNT(*) function. The COUNT(*) function counts the number of rows in a table, regardless of whether the rows contain data.",
+      "We need to select the count from the farm table.",
+      ""
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM farm AS farm"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "student_assessment.*.*"
+    ],
+    "question": "which course has most number of registered students?",
+    "thoughts": [
+      "To answer this question, we need to find the course with the most number of registered students.",
+      "To do this, we can join the Courses and Student_Course_Registrations tables on the course_id column.",
+      "This will give us a table with all of the courses and the number of students registered for each course.",
+      "We can then group the results by course_id and order them by the number of students registered in descending order.",
+      "Finally, we can select the first row to get the course with the most number of registered students."
+    ],
+    "answer": "SELECT\n  t1.course_name AS course_name\nFROM (\n  SELECT\n    t1.course_id AS course_id,\n    t1.course_name AS course_name,\n    t1.course_description AS course_description,\n    t1.other_details AS other_details\n  FROM courses AS t1\n) AS t1\nJOIN (\n  SELECT\n    t2.student_id AS student_id,\n    t2.course_id AS course_id,\n    t2.registration_date AS registration_date\n  FROM student_course_registrations AS t2\n) AS t2\n  ON t1.course_id = t2.course_id\nGROUP BY\n  t1.course_id\nORDER BY\n  COUNT(*) DESC\nLIMIT 1"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "book_2.*.*"
+    ],
+    "question": "How many books are there?",
+    "thoughts": [
+      "The question asks for the number of books in the database. This means that we will need to query the \"book\" table. The relevant column from the \"book\" table is \"Book_ID\".",
+      "In order to find the number of books, we need to count the number of rows in the \"book\" table. We can do this using the COUNT(*) function.",
+      "Finally, we need to select the count from the \"book\" table. We can do this using a SELECT statement."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM book AS book"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "musical.*.*"
+    ],
+    "question": "How many actors are there?",
+    "thoughts": [
+      "The question asks for the number of actors. This means that we need to count the number of rows in the \"actor\" table.",
+      "In order to count the number of rows in the \"actor\" table, we can use the COUNT(*) function. This function will count the number of rows in a table, regardless of whether the rows contain data or not.",
+      "We can use the COUNT(*) function in a SELECT statement to return the number of rows in the \"actor\" table. ",
+      ""
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM actor AS actor"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "product_catalog.*.*"
+    ],
+    "question": "Find the names of all the catalog entries.",
+    "thoughts": [
+      "The question asks for the names of all the catalog entries. The table that stores the catalog entries is \"Catalog_Contents\". So, we need to query the \"Catalog_Contents\" table to get the catalog entry names.",
+      "The \"Catalog_Contents\" table has a column called \"catalog_entry_name\" which stores the names of the catalog entries. So, we need to select the \"catalog_entry_name\" column from the \"Catalog_Contents\" table.",
+      "The \"Catalog_Contents\" table has duplicate values in the \"catalog_entry_name\" column. So, we need to use the \"DISTINCT\" keyword to get only the unique values in the \"catalog_entry_name\" column."
+    ],
+    "answer": "SELECT DISTINCT\n  catalog_contents.catalog_entry_name AS catalog_entry_name\nFROM catalog_contents AS catalog_contents"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "allergy_1.*.*"
+    ],
+    "question": "How many allergies are there?",
+    "thoughts": [
+      "The question asks for the number of allergies. This means that we need to count the number of distinct values in the \"Allergy\" column of the \"Allergy_Type\" table."
+    ],
+    "answer": "SELECT\n  COUNT(DISTINCT allergy_type.allergy) AS _col_0\nFROM allergy_type AS allergy_type"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "journal_committee.*.*"
+    ],
+    "question": "How many editors are there?",
+    "thoughts": [
+      "The question asks for the number of editors. This means that we will need to query the \"editor\" table. The relevant column from the \"editor\" table is \"Editor_ID\".",
+      "In order to find the number of editors, we need to count the number of distinct values in the \"Editor_ID\" column. We can do this using the COUNT(*) function.",
+      "Finally, we need to select the count from the results. We can do this using a SELECT clause."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM editor AS editor"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "customers_card_transactions.*.*"
+    ],
+    "question": "How many accounts do we have?",
+    "thoughts": [
+      "The question asks for the number of accounts we have. This means that we need to count the number of rows in the \"Accounts\" table.",
+      "To do this, we can use the COUNT(*) function. The COUNT(*) function counts the number of rows in a table, regardless of whether the rows contain data or not.",
+      "We can use the COUNT(*) function in a SELECT statement to return the number of accounts."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM accounts AS accounts"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "race_track.*.*"
+    ],
+    "question": "How many tracks do we have?",
+    "thoughts": [
+      "The question asks for the number of tracks we have. This means that we will need to query the \"track\" table. The relevant column from the \"track\" table is \"Track_ID\".",
+      "In order to find the number of tracks, we need to count the number of rows in the \"track\" table. We can do this using the COUNT(*) function.",
+      "Finally, we need to select the count from the \"track\" table. We can do this using a SELECT clause for the COUNT(*) function."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM track AS track"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "coffee_shop.*.*"
+    ],
+    "question": "How many members have the black membership card?",
+    "thoughts": [
+      "The question asks for the number of members who have the black membership card. This means that we will need to query the \"member\" table. The relevant column from the \"member\" table is \"Membership_card\".",
+      "In order to find the number of members who have the black membership card, we need to filter the results to only include members with a \"Membership_card\" value of \"Black\". We can do this using a WHERE clause on the column \"Membership_card\" of the table \"member\".",
+      "Finally, we need to count the number of rows in the filtered results. We can do this using the COUNT(*) function."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM member AS member\nWHERE\n  member.membership_card = 'Black'"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "insurance_fnol.*.*"
+    ],
+    "question": "Find all the phone numbers.",
+    "thoughts": [
+      "The question asks for all the phone numbers. The phone numbers are stored in the \"Customer_Phone\" column of the \"Available_Policies\" table. So, we can simply select the \"Customer_Phone\" column from the \"Available_Policies\" table."
+    ],
+    "answer": "SELECT\n  available_policies.customer_phone AS customer_phone\nFROM available_policies AS available_policies"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "medicine_enzyme_interaction.*.*"
+    ],
+    "question": "How many kinds of enzymes are there?",
+    "thoughts": [
+      "The question asks for the number of kinds of enzymes. This means that we need to count the number of distinct values in the \"name\" column of the \"enzyme\" table.",
+      "We can do this using the COUNT(*) function. The COUNT(*) function counts the number of rows in a table. We can use the COUNT(*) function in a SELECT statement to get the number of distinct values in a column."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM enzyme AS enzyme"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "university_basketball.*.*"
+    ],
+    "question": "List all schools and their nicknames in the order of founded year.",
+    "thoughts": [
+      "The question asks for all schools and their nicknames in the order of founded year. This means that we will need to query the \"university\" table. The relevant columns from the \"university\" table are \"school\" and \"nickname\".",
+      "In order to list all schools and their nicknames in the order of founded year, we need to sort the results by the \"founded\" column. We can do this using an ORDER BY clause on the column \"founded\" of the table \"university\".",
+      "Finally, we need to select the school and nickname columns from the sorted results. We can do this using a SELECT clause for the columns \"school\" and \"nickname\" from the table \"university\"."
+    ],
+    "answer": "SELECT\n  university.school AS school,\n  university.nickname AS nickname\nFROM university AS university\nORDER BY\n  university.founded"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "phone_1.*.*"
+    ],
+    "question": "the names of models that launched between 2002 and 2004.",
+    "thoughts": [
+      "The question asks for the names of models that launched between 2002 and 2004. This means that we need to query the \"chip_model\" table. The relevant column from the \"chip_model\" table is \"Model_name\".",
+      "In order to find the models that launched between 2002 and 2004, we need to filter the results to only include models that have a \"Launch_year\" between 2002 and 2004. We can do this using a WHERE clause on the column \"Launch_year\" of the table \"chip_model\".",
+      "Finally, we need to select the model names from the filtered results. We can do this using a SELECT clause for the column \"Model_name\" from the table \"chip_model\"."
+    ],
+    "answer": "SELECT\n  chip_model.model_name AS model_name\nFROM chip_model AS chip_model\nWHERE\n  chip_model.launch_year <= 2004 AND chip_model.launch_year >= 2002"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "match_season.*.*"
+    ],
+    "question": "How many countries are there in total?",
+    "thoughts": [
+      "The question asks for the number of countries in total. This means that we need to count the number of rows in the \"country\" table.",
+      "In order to count the number of rows in the \"country\" table, we can use the COUNT(*) function. This function will return the number of rows in the table, regardless of whether or not the rows have data in them.",
+      "We can use the SELECT statement to execute the COUNT(*) function. The SELECT statement is used to retrieve data from a table. In this case, we are retrieving the number of rows in the table."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM country AS country"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "climbing.*.*"
+    ],
+    "question": "How many climbers are there?",
+    "thoughts": [
+      "The question asks for the number of climbers. This means that we need to count the number of rows in the \"climber\" table.",
+      "In order to count the number of rows in the \"climber\" table, we can use the COUNT(*) function. This function returns the number of rows in a table.",
+      "We can use the COUNT(*) function in a SELECT statement to get the number of climbers"
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM climber AS climber"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "body_builder.*.*"
+    ],
+    "question": "How many body builders are there?",
+    "thoughts": [
+      "The question asks for the number of body builders. This means that we need to count the number of rows in the \"body_builder\" table.",
+      "In order to count the number of rows in the \"body_builder\" table, we can use the COUNT(*) function. This function will count the number of rows in the table, regardless of whether or not the rows have data in them.",
+      "We can use the COUNT(*) function in a SELECT statement to return the number of rows in the \"body_builder\" table."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM body_builder AS body_builder"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "election_representative.*.*"
+    ],
+    "question": "How many elections are there?",
+    "thoughts": [
+      "The question asks for the number of elections. This means that we need to count the number of rows in the \"election\" table.",
+      "In order to count the number of rows in the \"election\" table, we can use the COUNT(*) function. This function will count the number of rows in the table, regardless of whether or not the rows have data in them.",
+      "We can use the SELECT statement to execute the COUNT(*) function. The SELECT statement will return the result of the COUNT(*) function as a single value."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM election AS election"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "game_injury.*.*"
+    ],
+    "question": "How many games are held after season 2007?",
+    "thoughts": [
+      "The question asks for the number of games held after season 2007. This means that we need to query the \"game\" table and count the number of rows where the \"Season\" column is greater than 2007."
+    ],
+    "answer": "SELECT\n  COUNT(*) AS _col_0\nFROM game AS game\nWHERE\n  game.season > 2007"
+  }
+]

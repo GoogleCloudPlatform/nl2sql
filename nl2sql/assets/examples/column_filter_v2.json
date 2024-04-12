@@ -1,0 +1,233 @@
+[
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "formula_1.races.*"
+    ],
+    "question": "Give me a list of names and years of races that had any driver whose forename is Lewis?",
+    "thoughts": [
+      "The table seems to describe various details for each race, and the question is asking about details of races which had drivers with a certain forename.",
+      "The question mentions \"names\" and the information about name is present in the column \"name\".",
+      "The question mentions \"years\" and the information about year is present in the column \"year\".",
+      "The question mentions \"forename\" and the information about forename is present in the column \"name\"."
+    ],
+    "answer": [
+      "races.year",
+      "races.name",
+      "races.raceid"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "wine_1.wine.*"
+    ],
+    "question": "What are the names and scores of wines that are made of white color grapes?",
+    "thoughts": [
+      "The table seems to describe various wine attributes for each wine and the question is asking about names and scores of wine based on certain criteria.",
+      "The question mentions \"names\", and the table contains names information in the \"name\" column.",
+      "The question mentions \"scores\", and the table contains score information in the \"score\" column.",
+      "The question mentions \"white color grapes\", and the table contains grapes information in the \"grape\" column."
+    ],
+    "answer": [
+      "wine.score",
+      "wine.name",
+      "wine.grape"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "inn_1.Reservations.*"
+    ],
+    "question": "Which room has the highest rate? List the room's full name, rate, check in and check out date.",
+    "thoughts": [
+      "The table seems to describe reservation details of a hotel for each booking and the question is asking about details of room with the highest rate.",
+      "The question mentions \"rate\", and the table contains room rate information in the \"rate\" column.",
+      "The question mentions \"room's full name\", and the table contains room name information in the \"room\" column.",
+      "The question mentions \"check in\", and the table contains check in information in the \"checkin\" column.",
+      "The question mentions \"check out date\", and the table contains check out information in the \"checkout\" column."
+    ],
+    "answer": [
+      "Reservations.checkout",
+      "Reservations.rate",
+      "Reservations.room",
+      "Reservations.checkin"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "driving_school.Staff.*"
+    ],
+    "question": "Which country and state does staff with first name as Janessa and last name as Sawayn lived?",
+    "thoughts": [
+      "The table seems to describe staff details for each staff, and the question is asking about country and state details based on certain conditions.",
+      "The question mentions \"country and state\", and the table contains address information in the \"address_id\" column.",
+      "The question mentions \"staff with first name\", and the table contains first name information in the \"first_name\" column.",
+      "The question mentions \"last name\", and the table contains last name information in the \"last_name\" column."
+    ],
+    "answer": [
+      "Staff.first_name",
+      "Staff.last_name",
+      "Staff.staff_address_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "tracking_software_problems.Problems.*"
+    ],
+    "question": "What are the product ids for the problems reported by Christop Berge with closure authorised by Ashley Medhurst?",
+    "thoughts": [
+      "The table seems to describe information about reported problems for each product, and the question is asking about product IDs for the problems reported and closed by certain people.",
+      "The question mentions \"product ids\", and the table contains product id information in the \"product_id\" column.",
+      "The question mentions \"reported by\", and the table contains reporting person information in the \"reported_by_staff_id\" column.",
+      "The question mentions \"closure authorised by\", and the table contains closure authorization information in the \"closure_authorised_by_staff_id\" column."
+    ],
+    "answer": [
+      "Problems.closure_authorised_by_staff_id",
+      "Problems.product_id",
+      "Problems.reported_by_staff_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "aircraft.airport.*"
+    ],
+    "question": "Show all information on the airport that has the largest number of international passengers.",
+    "thoughts": [
+      "The table seems to describe various informations related to airport and passenger details for each airport, and the question is asking about information about the airport based on a criteria on international passengers",
+      "The question mentions \"all information on airport\", and the table contains airport information in the \"aircraft_movements\", \"domestic_passengers\", \"airport_name\", \"freight_metric_tonnes\", \"transit_passengers\", \"_change_2007\",  \"airport_id\" columns.",
+      "The question mentions criteria \"international passengers\" , and the table contains international passengers information in \"International_Passengers\" column"
+    ],
+    "answer": [
+      "airport.aircraft_movements",
+      "airport.domestic_passengers",
+      "airport.airport_name",
+      "airport.international_passengers",
+      "airport.freight_metric_tonnes",
+      "airport.transit_passengers",
+      "airport.%_change_2007",
+      "airport.total_passengers",
+      "airport.airport_id"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "gas_company.company.*"
+    ],
+    "question": "find the rank, company names, market values of the companies in the banking industry order by their sales and profits in billion.",
+    "thoughts": [
+      "The table seems to describe the details of each company and, the question is asking about details of the company in certain order and under certain filters.",
+      "The question mentions \"rank\", and the table contains rank information in the \"rank\" column.",
+      "The question mentions \"company names\", and the table contains company name information in the \"company\" column.",
+      "The question mentions \"market values\", and the table contains market value information in the \"market_value\" column.",
+      "The question mentions \"banking industry\", and the table contains banking industry information in the \"main_industry\" column.",
+      "The question mentions \"order by sales\", and the table contains sales information in the \"sales_billion\" column.",
+      "The question mentions \"profits in billion\", and the table contains profit information in the \"profits_billion\" column."
+    ],
+    "answer": [
+      "company.profits_billion",
+      "company.market_value",
+      "company.sales_billion",
+      "company.rank",
+      "company.company",
+      "company.main_industry"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "university_basketball.basketball_match.*"
+    ],
+    "question": "What is the team name and acc regular season score of the school that was founded for the longest time?",
+    "thoughts": [
+      "The table seems to describe various basketball match details for each team and school, and the question is asking about team names and scores for schools filtered by certain criteria.",
+      "The question mentions \"team name\", and the table contains team name information in the \"team_name\" column.",
+      "The question mentions \"acc regular season score\", and the table contains acc regular season score information in the \"acc_regular_season\" column.",
+      "The question mentions \"school info\", and the table contains school info in the column \"school_id\".",
+      "The question mentions \"school that was founded for the longest time?\", but the table does not contain any information about founding date."
+    ],
+    "answer": [
+      "basketball_match.acc_regular_season",
+      "basketball_match.school_id",
+      "basketball_match.team_name"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "store_1.employees.*"
+    ],
+    "question": "How many customers does Steve Johnson support?",
+    "thoughts": [
+      "The table seems to describe employee details and company information for each employee, and the question is asking about customer count based on certain criteria.",
+      "The question mentions \"how many customers\", and the table contains ID information in the \"id\" column.",
+      "The question mentions \"Steve Johnson support\", and the table contains first name information in the \"first_name\" column.",
+      "The question mentions \"Steve Johnson support\", and the table contains last name information in the \"last_name\" column."
+    ],
+    "answer": [
+      "employees.first_name",
+      "employees.id",
+      "employees.last_name"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "chinook_1.Customer.*"
+    ],
+    "question": "Find all invoice dates corresponding to customers with first name Astrid and last name Gruber.",
+    "thoughts": [
+      "The table seems to describe various customer information including personal and company details for each customer, and the question is asking about invoice dates for customer having certain names.",
+      "The question mentions \"invoice date\", and the table does not contains information about invoice date.",
+      "The question mentions criteria for \"first name\", and the table contains first name information in the \"firstname\" column.",
+      "The question mentions criteria for \"last name\", and the table contains last name information in the \"lastname\" column.",
+      "The question mentions \"customer\" information, and the table contains customer information in the \"customerid\" column"
+    ],
+    "answer": [
+      "Customer.firstname",
+      "Customer.customerid",
+      "Customer.lastname"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "baseball_1.player.*"
+    ],
+    "question": "List players' first name and last name who have weight greater than 220 or height shorter than 75.",
+    "thoughts": [
+      "The table seems to contain information about each player, including their personal details, physical attributes, and career information, and the question is asking the names of the players with certain height and weight constraints.",
+      "The question mentions \"player\u2019s first name\", and the table contains player\u2019s first name information in the \"name_first\" column.",
+      "The question mentions \"player\u2019s last name\", and the table contains player\u2019s last name information in the \"name_last\" column.",
+      "The question mentions \"weight\", and the table contains player\u2019s weight information in the \"weight\" column.",
+      "The question mentions \"height\", and the table contains player\u2019s height information in the \"height\" column."
+    ],
+    "answer": [
+      "player.weight",
+      "player.name_first",
+      "player.name_last",
+      "player.height"
+    ]
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "product_catalog.Catalog_Contents.*"
+    ],
+    "question": "What are the entry names of catalog with the attribute possessed by most entries.",
+    "thoughts": [
+      "The table seems to describe various details of products for each catalog, and the question is asking about catalog entry names under specific conditions",
+      "The question mentions \"entry names\", and the table contains entry names information in the \"catalog_entry_name\" column.",
+      "The question mentions filtering by \"most entries\", and the table contains entry information in the \"catalog_entry_id\" column."
+    ],
+    "answer": [
+      "Catalog_Contents.catalog_entry_id",
+      "Catalog_Contents.catalog_entry_name"
+    ]
+  }
+]

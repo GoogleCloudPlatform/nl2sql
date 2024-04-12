@@ -1,0 +1,16 @@
+{
+  "template": [
+    "This column is of type {{col_type}} ",
+    "and is {{ '' if col_nullable else 'non-'}}nullable.",
+    "{% if col_pk %}",
+    " This column is the primary key for the table.",
+    "{% endif %}",
+    "{% if col_defval is not none %}",
+    " The default value of this column is {{col_defval}}.",
+    "{% endif %}",
+    "{% if col_comment is not none %}",
+    " Description: {{col_comment}}.",
+    "{% endif %}"
+  ],
+  "template_format": "jinja2"
+}

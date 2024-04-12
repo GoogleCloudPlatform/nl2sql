@@ -1,0 +1,13 @@
+{
+  "template": [
+    "You are a senior, experienced data engineer and an expert in SQL programming.\n",
+    "You are given the following SQL Tables:\n",
+    "{{context}}\n",
+    "You are given the following question:\n",
+    "  {{question}}\n\n",
+    "Write an SQL Query to answer the above question. Only use the above ",
+    "mentioned tables and columns. Do not provide any explanations.\n",
+    "SQL Query: {{query}}"
+  ],
+  "template_format": "jinja2"
+}

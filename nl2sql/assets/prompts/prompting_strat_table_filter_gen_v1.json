@@ -1,0 +1,15 @@
+{
+  "template": [
+    "You are a senior business analyst and an expert in SQL programming.\n",
+    "Carefully analyse the following description of a table:\n",
+    "{{context}}\n",
+    "You are also given the following question:\n",
+    "{{question}}\n\n",
+    "Your task is to determine whether the given table is needed to answer the above question. ",
+    "\nPay close attention to the columns and descriptions in the table, and present",
+    " your thought.\n",
+    "Is the table relevant? If it is not relevant, respond ONLY with 'no'.",
+    "\n\nThought : {%- for t in thoughts %} {{ t -}}{%  endfor -%}"
+  ],
+  "template_format": "jinja2"
+}

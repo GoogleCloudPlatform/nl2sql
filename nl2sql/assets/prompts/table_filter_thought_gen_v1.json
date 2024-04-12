@@ -1,0 +1,20 @@
+{
+  "template": [
+    "Carefully analyse the following description of a table:\n",
+    "{{context}}\n",
+    "You are also given the following question:\n",
+    " {{question}}\n\n",
+    "Your task is to determine whether the given table is needed to answer the above ",
+    "question.\nPay attention to the columns and descriptions in the table, and present",
+    " your thoughts step by step.\n\nThoughts : ",
+    "{% if is_final %}{% set thoughtcount=(thoughts|length) %}{% endif %}",
+    "{% for thoughtnum in range((thoughtcount, thoughts|length)|min) %}",
+    "\n",
+    "{% if loop.last and not is_final %} Next Thought : {% endif %}",
+    " {{thoughts[thoughtnum]}}",
+    "{% if (thoughtnum + 1) == (thoughts|length) %} {{thought_termination_marker}}{% endif %}",
+    "{% endfor %}\n",
+    "{% if is_final %}Answer : {{answer}}\n{% endif %}"
+  ],
+  "template_format": "jinja2"
+}

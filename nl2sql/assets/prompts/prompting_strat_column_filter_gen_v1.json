@@ -1,0 +1,20 @@
+{
+  "template": [
+    "You are a Senior Business Analyst who is also an expert in SQL.\n",
+    "You are given the following table:\n",
+    "{{context}}\n",
+    "You are preparing to answer the following question:\n",
+    "  {{question}}\n\n",
+    "Your task is to identify the columns that would be required to ",
+    "answer the above question. Carefully analyse each column and make sure that ",
+    "the columns you recommend are definitely relevant to answering the question. ",
+    "Provide your thoughts in a ",
+    "step-by-step manner.\n\nThoughts : \n",
+    "{% for thought in thoughts %}",
+    "{{ thought }}\n",
+    " {% endfor %}\n",
+    "Only return a comma separated list of table_name.column_name that already exist in the table. Don't add any markdown or symbols to the output.\n\n",
+    "Answer (list of columns) : {{answer}}\n\n"
+  ],
+  "template_format": "jinja2"
+}

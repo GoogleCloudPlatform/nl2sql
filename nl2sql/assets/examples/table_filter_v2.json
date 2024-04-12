@@ -1,0 +1,142 @@
+[
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "college_1.DEPARTMENT.*"
+    ],
+    "question": "Find the first name of student who is taking classes from accounting and Computer Info. Systems departments",
+    "thoughts": [
+      "The question mentions \"departments\", which is relevant to the provided table. Yes.",
+      "The question mentions \"accounting and Computer Info. Systems departments\", which might be present in the DEPT_NAME column. Yes.",
+      "The question mentions \"first name of student\", but the table does not contain student details. No.",
+      "The table contains information about departments, while the question also requires information about departments. Yes."
+    ],
+    "answer": "Yes"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "customers_and_addresses.Customer_Addresses.*"
+    ],
+    "question": "What are the names of customers who have purchased both products Latte and Americano?",
+    "thoughts": [
+      "The question mentions \"names of customers\", but the table does not contain any columns for customer names. No.",
+      "The question mentions \"purchased\", but the table does not contain purchase details. No.",
+      "The question mentions \"products Latte and Americano?\", but the table does not contain information about products. No.",
+      "The table contains information about customer addresses, but the quetion asks about cutomer names and purchases. No."
+    ],
+    "answer": "No"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "cre_Theme_park.Tourist_Attraction_Features.*"
+    ],
+    "question": "What are the names of the tourist attractions that have parking or shopping as their feature details?",
+    "thoughts": [
+      "The question mentions \"names of the tourist attractions\", but the table does not contain the names of tourist attractions. No.",
+      "The question mentions \"tourist attractions\", which is relevant to the provided table. Yes",
+      "The question mentions \"feature details\", and the table contains feature ID column, which is relevant to the question. Yes.",
+      "The question mentions \"parking or shopping as their feature\", which might be present in the feature ID column. Yes.",
+      "The table contains information about IDs of tourist attractions and Features, and the question also asks about tourist attractions and their features. Yes."
+    ],
+    "answer": "Yes"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "tracking_software_problems.Problem_Category_Codes.*"
+    ],
+    "question": "Which products have problems reported by both the staff named Lacey Bosco and the staff named Kenton Champlin?",
+    "thoughts": [
+      "The question mentions \"problems reported by both the staff\", but the table does not contain information about the reporters. No.",
+      "The question mentions \"staff named Lacey Bosco and the staff named Kenton Champlin\", but the table does not contain any information about staff names. No.",
+      "The question mentions \"Which products\", but the table does not contain any information about the products. No.",
+      "The table contains information about problem categories, but the question asks about the products with problems reported by staff. No."
+    ],
+    "answer": "No"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "tracking_grants_for_research.Document_Types.*"
+    ],
+    "question": "For grants with both documents described as 'Regular' and documents described as 'Initial Application', list its start date.",
+    "thoughts": [
+      "The question mentions \"documents described as\", and the table has a document description column. Yes.",
+      "The question mentions \"described as 'Regular' and documents described as 'Initial Application'\", and the column document_description might have these values. Yes.",
+      "The question mentions \"start date\", but the table does not have any information about start date. No.",
+      "The table conatains informatipn about Document types and descriptions, while the question also asks about documents with given descriptions. Yes."
+    ],
+    "answer": "Yes"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "insurance_fnol.Settlements.*"
+    ],
+    "question": "Which customers have used both the service named \"Close a policy\" and the service named \"Upgrade a policy\"? Give me the customer names.",
+    "thoughts": [
+      "The question mentions \"service names\", but the table does not contain any information about the service name. No.",
+      "The question mentions \"customer names\", but the table contains no information about the customers. No.",
+      "The table contains information about claims and settlements, while the question asks about customers with a given service name. No."
+    ],
+    "answer": "No"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "manufacturer.furniture.*"
+    ],
+    "question": "Find the name of the company that produces both furnitures with less than 6 components and furnitures with more than 10 components.",
+    "thoughts": [
+      "The question mentions \"name of the company\", but the table does not contain any information about company name. No.",
+      "The question mentions \"furnitures\", and the table contains information about furnitures. Yes.",
+      "The question mentions \"components\", and the table conatins information about the number of components in the column \"Num_of_Component\". Yes.",
+      "The table contains information about furnitures and their components, and the question also asks about the furnitures with given number of components. Yes."
+    ],
+    "answer": "Yes"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "baseball_1.player_award.*"
+    ],
+    "question": "List players' first name and last name who received salary from team Washington Nationals in both 2005 and 2007.",
+    "thoughts": [
+      "The question mentions \"players' first name and last name\", but the table does not contain this information. No.",
+      "The question mentions \"team Washington Nationals\", but the table contains no information about teams. No.",
+      "The question mentions \"salary\", but the table contains no information about salary. No.",
+      "The table contains information about player's awards, and the question asks about the players names and teams. No."
+    ],
+    "answer": "No"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "aircraft.airport_aircraft.*"
+    ],
+    "question": "What are the names of all aircrafts that are associated with both London Heathrow and Gatwick airports?",
+    "thoughts": [
+      "The question mentions \"names of all aircrafts\", but the table does not contain any information about aircraft names. No.",
+      "The question mentions \"airports\", and the table contains information about airport IDs in the column \"Airport_ID\". Yes.",
+      "The question mentions \"aircrafts that are associated with both London Heathrow and Gatwick airports\", and the table contains information about the mapping between airports and aircrafts. Yes.",
+      "The table contains information about airports and aircrafts, while the question also asks about the aircrafts associated with given airports. Yes."
+    ],
+    "answer": "Yes"
+  },
+  {
+    "dataset": "spider.train",
+    "data_id": [
+      "shop_membership.purchase.*"
+    ],
+    "question": "Find the name of branches where have some members whose hometown is in Louisville, Kentucky and some in Hiram, Georgia.",
+    "thoughts": [
+      "The question mentions \"branches\", and the table contains information about branch names in the column \"branch_ID\". Yes.",
+      "The question mentions \"hometown\", but the table does not contain any information about hometowns. No.",
+      "The question mentions \"member\", and the table contains member IDs. Yes.",
+      "The table contains information about members' purchases, while the question asks about members hometowns and branches. No."
+    ],
+    "answer": "No"
+  }
+]
