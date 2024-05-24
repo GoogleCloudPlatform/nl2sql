@@ -402,19 +402,12 @@ class Database(BaseModel):
         for table in temp_db._metadata.sorted_tables:
             if table.name in table_exclusions:
                 continue
-            table_descriptor[table.name] = {
-                "table_name": table.name,
-                "table_creation_statement": str(
-                    CreateTable(table).compile(engine)
-                ).rstrip(),
-                "table_sample_rows": temp_db._get_sample_rows(table),
-                "col_descriptor": {},
-            }
             constraints = {
                 col.name
                 for con in table.constraints
                 for col in con.columns  # type: ignore
             }
+            col_descriptor: dict[str, BaseColDescriptor] = {}
             col_enums = []
             for col in table._columns:  # type: ignore
                 if (col.name not in constraints) and (
@@ -444,7 +437,7 @@ class Database(BaseModel):
                                 ).distinct()
                             )
 
-                        col_descriptor: BaseColDescriptor = {
+                        col_descriptor_map: BaseColDescriptor = {
                             "col_type": str(col.type),
                             "col_nullable": col.nullable,
                             "col_pk": col.primary_key,
@@ -471,12 +464,10 @@ class Database(BaseModel):
                             ),
                         }
                     else:
-                        col_descriptor = self.descriptor[table.name]["col_descriptor"][
-                            col.name
-                        ]
-                    table_descriptor[table.name]["col_descriptor"][
-                        col.name
-                    ] = col_descriptor
+                        col_descriptor_map = self.descriptor[table.name][
+                            "col_descriptor"
+                        ][col.name]
+                    col_descriptor[col.name] = col_descriptor_map
 
             for colname, colvals in (
                 (
@@ -490,9 +481,21 @@ class Database(BaseModel):
                 if col_enums
                 else {}
             ).items():
-                table_descriptor[table.name]["col_descriptor"][colname][
-                    "col_enum_vals"
-                ] = colvals
+                col_descriptor[colname]["col_enum_vals"] = colvals
+
+            table_descriptor[table.name] = {
+                "table_name": table.name,
+                "table_creation_statement": str(
+                    CreateTable(table).compile(engine)
+                ).rstrip(),
+                "table_sample_rows": temp_db._get_sample_rows(table),
+                "col_descriptor": col_descriptor,
+            }
+
+            logger.trace(
+                f"[{self.name}] : Table descriptor created for {table.name}"
+                + f"\n{table_descriptor[table.name]}"
+            )
             table_descriptions[table.name] = self.table_desc_template.format(
                 **{
                     key: value

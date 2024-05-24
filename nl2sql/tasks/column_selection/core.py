@@ -216,23 +216,23 @@ class CoreColumnSelector(BaseColumnSelectionTask):
             )
             selected_columns.extend(processed_response)
 
-        avialble_columns = {
+        available_columns = {
             f"{tabname}.{colname}"
             for tabname, tabdesc in db.descriptor.items()
             for colname in tabdesc["col_descriptor"].keys()
         }
-        avialble_columns_lower_map = {i.lower(): i for i in avialble_columns}
+        available_columns_lower_map = {i.lower(): i for i in available_columns}
         filtered_selected_columns: set[str] = {
-            avialble_columns_lower_map[c.lower()]
+            available_columns_lower_map[c.lower()]
             for c in selected_columns
-            if c.lower() in avialble_columns_lower_map
+            if c.lower() in available_columns_lower_map
         }
         if not filtered_selected_columns:
             logger.critical("No column Selected!")
         return CoreColumnSelectorResult(
             db_name=db.name,
             question=question,
-            available_columns=avialble_columns,
+            available_columns=available_columns,
             selected_columns=filtered_selected_columns,
             intermediate_steps=intermediate_steps,
         )
