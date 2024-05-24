@@ -15,7 +15,7 @@
 """
 Implementation of the core prompting based approach to Table Selection
 """
-from typing import Callable
+from typing import Any, Callable, Dict, List
 from uuid import uuid4
 
 from langchain.chains.sql_database import prompt as lc_prompts
@@ -47,6 +47,9 @@ class _CoreTableSelectorPrompt(BaseModel):
     parser: StructuredOutputParser | None = None
     call_for_each_table: bool
     post_processor: Callable
+    greedy_post_processor: (
+        Callable[[List[Dict[str, Any]], set[str]], set[str]] | None
+    ) = None
 
 
 class _TableSelectorPrompts:
@@ -66,11 +69,26 @@ class _TableSelectorPrompts:
 
     @property
     def CURATED_FEW_SHOT_COT_PROMPT(self) -> _CoreTableSelectorPrompt:
+
+        def greedy_post_processor(
+            intermediate_steps: List[Dict[str, Any]], available_tables: set[str]
+        ) -> set[str]:
+            """Implements greedy post-processing for yes/no table selection."""
+            selected_tables = []
+
+            for step in intermediate_steps:
+                if "yes." in step["raw_response"].lower():
+                    selected_tables.append(step["table"])
+            filtered_tables = set(selected_tables).intersection(available_tables)
+
+            return filtered_tables
+
         return _CoreTableSelectorPrompt(
             prompt_id="TASK_TABLE_SELECTION_CORE_V1_SPIDER_V1",
             prompt_template=FewShotPrompts.TASK_TABLE_SELECTION_CORE_V1_SPIDER_V1,
             call_for_each_table=True,
             post_processor=lambda x: yes_no_classifier(x) == "True",
+            greedy_post_processor=greedy_post_processor,
         )
 
     @classmethod
@@ -196,8 +214,17 @@ class CoreTableSelector(BaseTableSelectionTask):
         filtered_selected_tables: set[str] = set.intersection(
             set(selected_tables), db.db._usable_tables
         )
+        if not filtered_selected_tables and self.prompt.greedy_post_processor:
+            logger.debug(f"[{self.tasktype}] : Running Greedy Post Processor...")
+            filtered_selected_tables = self.prompt.greedy_post_processor(
+                intermediate_steps, db.db._usable_tables
+            )
+            logger.trace(
+                f"[{self.tasktype}] : Tables selected after greedy filtering : {filtered_selected_tables}"
+            )
         if not filtered_selected_tables:
             logger.critical("No table Selected!")
+
         return CoreTableSelectorResult(
             db_name=db.name,
             question=question,
