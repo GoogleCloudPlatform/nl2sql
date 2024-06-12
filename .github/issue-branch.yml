@@ -1,7 +1,7 @@
 autoLinkIssue: true
 autoCloseIssue: true
 defaultBranch: 'dev'
-openDraftPR: true
+openDraftPR: false
 copyIssueDescriptionToPR: true
 copyIssueLabelsToPR: true
 copyIssueAssigneeToPR: true
