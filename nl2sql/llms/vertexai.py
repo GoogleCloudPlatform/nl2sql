@@ -19,6 +19,8 @@ from google.cloud import aiplatform_v1beta1
 from google.protobuf import struct_pb2
 from langchain_google_vertexai import VertexAI
 from typing import ClassVar
+from langchain_google_vertexai import VertexAI
+from typing import ClassVar
 
 class ExtendedVertexAI(VertexAI):
     """
@@ -31,12 +33,23 @@ class ExtendedVertexAI(VertexAI):
         "gemini-1.0-pro-002": 8000,
         "gemini-1.5-pro-001": 8000,
     }
+    token_limits: ClassVar[dict[str, int]] = {
+        "text-bison" : 2048,
+        "text-bison-32k": 8000,
+        "gemini-1.5-flash-001": 8000,
+        "gemini-1.0-pro-002": 8000,
+        "gemini-1.5-pro-001": 8000,
+    }
 
     def get_num_tokens(self, text: str) -> int:
         """
         Returns the token count for some text
         """
-        if self.model_name.startswith("gemini"):
+        if (
+            self.model_name.startswith("gemini")
+            and
+            self.model_name in self.token_limits
+        ):
             return self.client.count_tokens(text).total_tokens
         else:
             token_struct = struct_pb2.Struct()
@@ -58,7 +71,10 @@ class ExtendedVertexAI(VertexAI):
         """
         Returns the maximum number of input tokens allowed
         """
-        raise NotImplementedError
+        if self.model_name not in self.token_limits:
+            raise NotImplementedError
+        else:
+            return self.token_limits[self.model_name]
 
 
 def model(
@@ -69,13 +85,20 @@ def model(
         top_k=40) -> ExtendedVertexAI:
     """
     Return an Instance of Vertex AI LLM
+    Return an Instance of Vertex AI LLM
     """
     return ExtendedVertexAI(
+        model_name=model_name,
+        max_tokens=ExtendedVertexAI.token_limits.get(model_name, max_output_tokens),
         model_name=model_name,
         max_tokens=ExtendedVertexAI.token_limits.get(model_name, max_output_tokens),
         temperature=temperature,
         top_p=top_p,
         top_k=top_k,
+        n=1
+    )
+
+    
         n=1
     )
 
