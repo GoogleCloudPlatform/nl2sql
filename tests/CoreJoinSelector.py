@@ -13,12 +13,12 @@
 # limitations under the License.
 
 from nl2sql.datasets import fetch_dataset
-from nl2sql.llms.vertexai import text_bison_latest
+from nl2sql.llms.vertexai import model
 from nl2sql.tasks.join_selection.core import CoreJoinSelector, prompts
 
 ds = fetch_dataset("spider.train")
 db = ds.get_database("department_management")
-llm = text_bison_latest()
+llm = model("text-bison")
 
 question = "What are the distinct creation years of the departments managed by a secretary born in state 'Alabama'?"
 

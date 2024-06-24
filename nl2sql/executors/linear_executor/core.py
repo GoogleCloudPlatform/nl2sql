@@ -25,7 +25,7 @@ from nl2sql.executors.linear_executor import (
     BaseLinearExecutor,
     BaseLinearExecutorResult,
 )
-from nl2sql.llms.vertexai import text_bison_32k, text_bison_latest
+from nl2sql.llms.vertexai import model
 from nl2sql.tasks.column_selection import BaseColumnSelectionTask
 from nl2sql.tasks.column_selection.core import CoreColumnSelector
 from nl2sql.tasks.eval_fix import BaseEvalFixTask
@@ -56,16 +56,16 @@ class CoreLinearExecutor(BaseLinearExecutor):
     ] = "Executor.LinearExecutor.CoreLinearExecutor"
 
     core_table_selector: BaseTableSelectionTask | None = Field(
-        default_factory=lambda: CoreTableSelector(llm=text_bison_32k())
+        default_factory=lambda: CoreTableSelector(llm=model("text-bison-32k"))
     )
     core_column_selector: BaseColumnSelectionTask | None = Field(
-        default_factory=lambda: CoreColumnSelector(llm=text_bison_32k())
+        default_factory=lambda: CoreColumnSelector(llm=model("text-bison-32k"))
     )
     core_sql_generator: BaseSqlGenerationTask = Field(
-        default_factory=lambda: CoreSqlGenerator(llm=text_bison_32k())
+        default_factory=lambda: CoreSqlGenerator(llm=model("text-bison-32k"))
     )
     core_eval_fix: BaseEvalFixTask = Field(
-        default_factory=lambda: CoreEvalFix(llm=text_bison_32k())
+        default_factory=lambda: CoreEvalFix(llm=model("text-bison-32k"))
     )
 
 

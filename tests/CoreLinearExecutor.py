@@ -14,7 +14,7 @@
 
 from nl2sql.datasets import fetch_dataset
 from nl2sql.executors.linear_executor.core import CoreLinearExecutor
-from nl2sql.llms.vertexai import text_bison_latest
+from nl2sql.llms.vertexai import model
 
 ds = fetch_dataset("spider.test")
 db_name="pets_1"

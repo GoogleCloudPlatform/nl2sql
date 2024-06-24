@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from google.cloud import aiplatform
+aiplatform.init(project="gdc-ai-playground")
+#TODO @keshv move the aiplatform init to vertexai.py
+
 from nl2sql.datasets import fetch_dataset
-from nl2sql.llms.vertexai import text_bison_latest
+from nl2sql.llms.vertexai import model
 from nl2sql.tasks.column_selection.core import CoreColumnSelector, prompts
 
 ds = fetch_dataset("spider.test")
 db = ds.get_database("pets_1")
-llm = text_bison_latest()
+llm = model("text-bison")
 
 question = "Find the average weight for each pet type."
 
