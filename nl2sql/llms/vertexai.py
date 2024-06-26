@@ -33,13 +33,6 @@ class ExtendedVertexAI(VertexAI):
         "gemini-1.0-pro-002": 8000,
         "gemini-1.5-pro-001": 8000,
     }
-    token_limits: ClassVar[dict[str, int]] = {
-        "text-bison" : 2048,
-        "text-bison-32k": 8000,
-        "gemini-1.5-flash-001": 8000,
-        "gemini-1.0-pro-002": 8000,
-        "gemini-1.5-pro-001": 8000,
-    }
 
     def get_num_tokens(self, text: str) -> int:
         """
@@ -97,9 +90,4 @@ def model(
         top_k=top_k,
         n=1
     )
-
-    
-        n=1
-    )
-
     
