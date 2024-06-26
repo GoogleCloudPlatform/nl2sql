@@ -26,7 +26,7 @@ class ExtendedVertexAI(VertexAI):
     """
     Adds utility functions to GooglePalm
     """
-    token_limits: ClassVar[dict[str, int]] = {
+    input_token_limits: ClassVar[dict[str, int]] = {
         "text-bison" : 2048,
         "text-bison-32k": 8000,
         "gemini-1.5-flash-001": 8000,
@@ -41,7 +41,7 @@ class ExtendedVertexAI(VertexAI):
         if (
             self.model_name.startswith("gemini")
             and
-            self.model_name in self.token_limits
+            self.model_name in self.input_token_limits
         ):
             return self.client.count_tokens(text).total_tokens
         else:
@@ -64,10 +64,10 @@ class ExtendedVertexAI(VertexAI):
         """
         Returns the maximum number of input tokens allowed
         """
-        if self.model_name not in self.token_limits:
+        if self.model_name not in self.input_token_limits:
             raise NotImplementedError
         else:
-            return self.token_limits[self.model_name]
+            return self.input_token_limits[self.model_name]
 
 
 def model(
@@ -78,13 +78,10 @@ def model(
         top_k=40) -> ExtendedVertexAI:
     """
     Return an Instance of Vertex AI LLM
-    Return an Instance of Vertex AI LLM
     """
     return ExtendedVertexAI(
         model_name=model_name,
-        max_tokens=ExtendedVertexAI.token_limits.get(model_name, max_output_tokens),
-        model_name=model_name,
-        max_tokens=ExtendedVertexAI.token_limits.get(model_name, max_output_tokens),
+        max_tokens=ExtendedVertexAI.input_token_limits.get(model_name, max_output_tokens),
         temperature=temperature,
         top_p=top_p,
         top_k=top_k,
