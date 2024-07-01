@@ -19,19 +19,17 @@ from google.cloud import aiplatform_v1beta1
 from google.protobuf import struct_pb2
 from langchain_google_vertexai import VertexAI
 from typing import ClassVar
-from langchain_google_vertexai import VertexAI
-from typing import ClassVar
 
 class ExtendedVertexAI(VertexAI):
     """
     Adds utility functions to GooglePalm
     """
-    input_token_limits: ClassVar[dict[str, int]] = {
-        "text-bison" : 2048,
-        "text-bison-32k": 8000,
-        "gemini-1.5-flash-001": 8000,
-        "gemini-1.0-pro-002": 8000,
-        "gemini-1.5-pro-001": 8000,
+    model_token_limits: ClassVar[dict[str, int]] = {
+        "text-bison" : {"input": 2048, "output": 1024},
+        "text-bison-32k": {"input": 24000, "output": 8000},
+        "gemini-1.5-flash-001": {"input": 1_040_000, "output": 8000},
+        "gemini-1.0-pro-002": {"input": 24000, "output": 8000},
+        "gemini-1.5-pro-001": {"input": 2_095_000, "output": 8000},
     }
 
     def get_num_tokens(self, text: str) -> int:
@@ -41,7 +39,7 @@ class ExtendedVertexAI(VertexAI):
         if (
             self.model_name.startswith("gemini")
             and
-            self.model_name in self.input_token_limits
+            self.model_name in self.model_token_limits
         ):
             return self.client.count_tokens(text).total_tokens
         else:
@@ -64,10 +62,19 @@ class ExtendedVertexAI(VertexAI):
         """
         Returns the maximum number of input tokens allowed
         """
-        if self.model_name not in self.input_token_limits:
+        if self.model_name not in self.model_token_limits:
             raise NotImplementedError
         else:
-            return self.input_token_limits[self.model_name]
+            return self.model_token_limits[self.model_name]["input"]
+    
+    def get_max_output_tokens(self) -> int:
+        """
+        Returns the maximum number of output tokens allowed
+        """
+        if self.model_name not in self.model_token_limits:
+            raise NotImplementedError
+        else:
+            return self.model_token_limits[self.model_name]["output"]
 
 
 def model(
@@ -79,12 +86,18 @@ def model(
     """
     Return an Instance of Vertex AI LLM
     """
-    return ExtendedVertexAI(
-        model_name=model_name,
-        max_tokens=ExtendedVertexAI.input_token_limits.get(model_name, max_output_tokens),
+    if not model_name in ExtendedVertexAI.model_token_limits:
+        raise NotImplementedError
+    
+    llm = ExtendedVertexAI(
+        name=model_name,
         temperature=temperature,
         top_p=top_p,
         top_k=top_k,
         n=1
     )
+    model_output_tokens = llm.get_max_output_tokens()
+    max_output_tokens =  min(model_output_tokens, max_output_tokens)
+    llm.max_output_tokens = max_output_tokens
+    return llm
     
