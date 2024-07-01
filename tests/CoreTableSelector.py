@@ -13,12 +13,12 @@
 # limitations under the License.
 
 from nl2sql.datasets import fetch_dataset
-from nl2sql.llms.vertexai import text_bison_latest
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.table_selection.core import CoreTableSelector, prompts
 
 ds = fetch_dataset("spider.train")
 db = ds.get_database("culture_company")
-llm = text_bison_latest()
+llm = VertexAI(model_name="text-bison")
 
 question = "What are all company names that have a corresponding movie directed in the year 1999?"
 

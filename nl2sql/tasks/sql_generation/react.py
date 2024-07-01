@@ -17,8 +17,8 @@ Implementation of the ReAct prompting based approach to SQL Generation
 """
 from typing import Any
 
-from langchain.agents import create_sql_agent
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
+from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
 from langchain.agents.agent_types import AgentType
 from langchain.llms.base import BaseLLM
 from loguru import logger
