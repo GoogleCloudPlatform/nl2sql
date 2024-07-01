@@ -50,6 +50,9 @@ class BaseLinearExecutor(BaseExecutor, ABC):
         raise NotImplementedError
 
     def fetch_result(self, result: BaseLinearExecutorResult) -> pd.DataFrame:
+        """
+        Fetch execution result against the Database
+        """
         if result.generated_query is None:
             raise ValueError("Supplied query is empty")
         return self.dataset.get_database(result.db_name).execute(result.generated_query)

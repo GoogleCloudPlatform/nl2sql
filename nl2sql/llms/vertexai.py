@@ -15,12 +15,12 @@
 """
 Used to get an instance of the Vertex AI LLM
 """
+from typing import ClassVar
 from google.cloud import aiplatform_v1beta1
 from google.protobuf import struct_pb2
-from langchain_google_vertexai import VertexAI
-from typing import ClassVar
+import langchain_google_vertexai as vertexai
 
-class ExtendedVertexAI(VertexAI):
+class VertexAI(vertexai.VertexAI):
     """
     Adds utility functions to GooglePalm
     """
@@ -36,27 +36,28 @@ class ExtendedVertexAI(VertexAI):
         """
         Returns the token count for some text
         """
+        model_name = str(self.model_name)
         if (
-            self.model_name.startswith("gemini")
+            model_name.startswith("gemini")
             and
-            self.model_name in self.model_token_limits
+            model_name in self.model_token_limits
         ):
             return self.client.count_tokens(text).total_tokens
-        else:
-            token_struct = struct_pb2.Struct()
-            token_struct.update({"content": text})
-            return (
-                aiplatform_v1beta1.PredictionServiceClient(
-                    client_options={
-                        "api_endpoint": f"{self.location}-aiplatform.googleapis.com"
-                    }
-                )
-                .count_tokens(
-                    endpoint=self.client._endpoint_name,  # pylint: disable = protected-access
-                    instances=[struct_pb2.Value(struct_value=token_struct)],
-                )
-                .total_tokens
+
+        token_struct = struct_pb2.Struct()
+        token_struct.update({"content": text})
+        return (
+            aiplatform_v1beta1.PredictionServiceClient(
+                client_options={
+                    "api_endpoint": f"{self.location}-aiplatform.googleapis.com"
+                }
             )
+            .count_tokens(
+                endpoint=self.client._endpoint_name,  # pylint: disable = protected-access
+                instances=[struct_pb2.Value(struct_value=token_struct)],
+            )
+            .total_tokens
+        )
 
     def get_max_input_tokens(self) -> int:
         """
@@ -64,40 +65,4 @@ class ExtendedVertexAI(VertexAI):
         """
         if self.model_name not in self.model_token_limits:
             raise NotImplementedError
-        else:
-            return self.model_token_limits[self.model_name]["input"]
-    
-    def get_max_output_tokens(self) -> int:
-        """
-        Returns the maximum number of output tokens allowed
-        """
-        if self.model_name not in self.model_token_limits:
-            raise NotImplementedError
-        else:
-            return self.model_token_limits[self.model_name]["output"]
-
-
-def model(
-        model_name="gemini-1.5-flash-001",
-        max_output_tokens=8000,
-        temperature=0.1,
-        top_p=0.8,
-        top_k=40) -> ExtendedVertexAI:
-    """
-    Return an Instance of Vertex AI LLM
-    """
-    if not model_name in ExtendedVertexAI.model_token_limits:
-        raise NotImplementedError
-    
-    llm = ExtendedVertexAI(
-        name=model_name,
-        temperature=temperature,
-        top_p=top_p,
-        top_k=top_k,
-        n=1
-    )
-    model_output_tokens = llm.get_max_output_tokens()
-    max_output_tokens =  min(model_output_tokens, max_output_tokens)
-    llm.max_output_tokens = max_output_tokens
-    return llm
-    
+        return self.model_token_limits[self.model_name]["input"]

@@ -16,7 +16,7 @@ from isort import file
 
 from nl2sql.datasets import fetch_dataset
 from nl2sql.executors.linear_executor.core import CoreLinearExecutor
-from nl2sql.llms.vertexai import model
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.column_selection.core import CoreColumnSelector
 from nl2sql.tasks.column_selection.core import prompts as ccs_prompts
 from nl2sql.tasks.sql_generation.core import CoreSqlGenerator
@@ -24,7 +24,7 @@ from nl2sql.tasks.sql_generation.core import prompts as csg_prompts
 from nl2sql.tasks.table_selection.core import CoreTableSelector
 from nl2sql.tasks.table_selection.core import prompts as cts_prompts
 
-llm = model("text-bison-32k")
+llm = VertexAI(model_name="text-bison-32k")
 
 core_table_selector = CoreTableSelector(llm=llm, prompt=cts_prompts.CURATED_FEW_SHOT_COT_PROMPT)
 core_column_selector = CoreColumnSelector(llm=llm, prompt=ccs_prompts.CURATED_FEW_SHOT_COT_PROMPT)

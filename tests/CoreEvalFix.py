@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from nl2sql.datasets import fetch_dataset
-from nl2sql.llms.vertexai import model
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.eval_fix.core import CoreEvalFix
 
 ds = fetch_dataset("spider.test")
@@ -21,7 +21,7 @@ db = ds.get_database("pets_1")
 question = "Find the average weight for each pet type."
 
 incorrect_query = "SELECT TypePet, AVG(weight) AS 'Average Weight' FROM Pets GROUP BY PetType"
-eval_fix_task = CoreEvalFix(llm=model("text-bison-32k"), num_retries=10)
+eval_fix_task = CoreEvalFix(llm=VertexAI(model_name="text-bison-32k"), num_retries=10)
 eval_fix_task(db, question, incorrect_query)
 
 print("Done")

@@ -25,7 +25,7 @@ from nl2sql.executors.linear_executor import (
     BaseLinearExecutor,
     BaseLinearExecutorResult,
 )
-from nl2sql.llms.vertexai import model
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.column_selection import BaseColumnSelectionTask
 from nl2sql.tasks.column_selection.core import CoreColumnSelector
 from nl2sql.tasks.eval_fix import BaseEvalFixTask
@@ -56,16 +56,16 @@ class CoreLinearExecutor(BaseLinearExecutor):
     ] = "Executor.LinearExecutor.CoreLinearExecutor"
 
     core_table_selector: BaseTableSelectionTask | None = Field(
-        default_factory=lambda: CoreTableSelector(llm=model("text-bison-32k"))
+        default_factory=lambda: CoreTableSelector(llm=VertexAI(model_name="text-bison-32k"))
     )
     core_column_selector: BaseColumnSelectionTask | None = Field(
-        default_factory=lambda: CoreColumnSelector(llm=model("text-bison-32k"))
+        default_factory=lambda: CoreColumnSelector(llm=VertexAI(model_name="text-bison-32k"))
     )
     core_sql_generator: BaseSqlGenerationTask = Field(
-        default_factory=lambda: CoreSqlGenerator(llm=model("text-bison-32k"))
+        default_factory=lambda: CoreSqlGenerator(llm=VertexAI(model_name="text-bison-32k"))
     )
     core_eval_fix: BaseEvalFixTask = Field(
-        default_factory=lambda: CoreEvalFix(llm=model("text-bison-32k"))
+        default_factory=lambda: CoreEvalFix(llm=VertexAI(model_name="text-bison-32k"))
     )
 
 
@@ -128,7 +128,7 @@ class CoreLinearExecutor(BaseLinearExecutor):
                         {"eval_fix": eval_fix_result.intermediate_steps}
                     )
                     result_generated_query = eval_fix_result.modified_query
-        
+
         #Generated SQL cleanup : Remove Backticks if any
         if result_generated_query is not None:
             result_generated_query = re.sub("```|sql", "",
