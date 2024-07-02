@@ -13,12 +13,12 @@
 # limitations under the License.
 
 from nl2sql.datasets import fetch_dataset
-from nl2sql.llms.vertexai import text_bison_latest
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.sql_generation.core import CoreSqlGenerator, prompts
 
 ds = fetch_dataset("spider.test")
 db = ds.get_database("pets_1")
-llm = text_bison_latest()
+llm = VertexAI(model_name="gemini-1.5-pro-001")
 
 question = "Find the average weight for each pet type."
 
