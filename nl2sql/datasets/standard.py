@@ -15,16 +15,15 @@
 """
 Allows importing and Spider Dataset
 """
+import io
 import json
 import os
+import requests
 import typing
+
 from abc import ABC
 from tempfile import gettempdir
 from zipfile import ZipFile
-
-import datasets as hf_dataset
-from datasets import config as hf_config
-from google.cloud import storage  # type: ignore[attr-defined]
 from typing_extensions import TypedDict
 
 from nl2sql.datasets.base import Dataset
@@ -85,12 +84,11 @@ SpiderCoreSpec = TypedDict(
 class Spider(StandardDataset):
     dataset_id: str = "Spider"
     dataset_splits: list[str] = ["test", "train"]
-    bucket_name: str = "nl2sql-internal"
-    zipfile_path: str = "assets/datasets/spider/spider.zip"
-    temp_loc = os.path.join(gettempdir(), "NL2SQL_SPIDER_DATASET")
+    dataset_url: str = "https://storage.googleapis.com/github-repo/nl2sql/spider.zip"
     temp_extracted_loc = os.path.join(
         gettempdir(), "NL2SQL_SPIDER_DATASET", "extracted"
     )
+    temp_extracted_spider_folder = os.path.join(gettempdir(), "NL2SQL_SPIDER_DATASET", "extracted", "spider")
     promblematic_databases: typing.ClassVar[
         dict[typing.Literal["errors", "warnings"], list[str]]
     ] = {
@@ -144,27 +142,24 @@ class Spider(StandardDataset):
         set up the Spider dataset
         """
         if not (
-            os.path.exists(os.path.join(self.temp_extracted_loc,
-                                        "spider",
-                                        "train_spider.json"))
-            or
-            os.path.exists(os.path.join(self.temp_extracted_loc,
-                                        "spider",
-                                        "dev.json"))
-            or
-            os.path.exists(os.path.join(self.temp_extracted_loc,
-                                        "spider",
-                                        "database"))
+            os.path.exists(
+                os.path.join(self.temp_extracted_loc, "spider", "train_spider.json")
+            )
+            or os.path.exists(
+                os.path.join(self.temp_extracted_loc, "spider", "dev.json")
+            )
+            or os.path.exists(
+                os.path.join(self.temp_extracted_loc, "spider", "database")
+            )
         ):
             if not os.path.exists(self.temp_extracted_loc):
                 os.makedirs(self.temp_extracted_loc)
-            temp_zipfile_path = os.path.join(self.temp_loc, "spider.zip")
-            if not os.path.exists(temp_zipfile_path):
-                storage.Client().get_bucket(self.bucket_name).blob(
-                        self.zipfile_path
-                    ).download_to_filename(temp_zipfile_path)  
-            with ZipFile(temp_zipfile_path, "r") as zipped_file:
-                zipped_file.extractall(path=self.temp_extracted_loc)
+
+            if not os.path.exists(self.temp_extracted_spider_folder):
+                dataset = requests.get(self.dataset_url, stream=True)
+                blob = ZipFile(io.BytesIO(dataset.content))
+                blob.extractall(path=self.temp_extracted_loc)
+
 
     def fetch_raw_data(
         self, split: typing.Literal["test", "train"], strict: bool = False

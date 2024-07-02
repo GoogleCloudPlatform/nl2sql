@@ -12,19 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from nl2sql.datasets import Dataset
-from nl2sql.llms.vertexai import text_bison_32k
+from nl2sql.datasets import fetch_dataset
+from nl2sql.llms.vertexai import VertexAI
 from nl2sql.tasks.eval_fix.core import CoreEvalFix
 
-db = Dataset.from_connection_strings(
-    name_connstr_map={
-        "libraries_io": "bigquery://<YOUR-PROJECT-HERE>/libraries_io",
-    }
-)
+ds = fetch_dataset("spider.test")
+db = ds.get_database("pets_1")
+question = "Find the average weight for each pet type."
 
-question = "What is the name of the project with the highest source rank?"
-incorrect_query = "SELECT my_name FROM projects ORDER BY sourcerank DESC LIMIT 1"
-eval_fix_task = CoreEvalFix(llm=text_bison_32k(), num_retries=10)
-eval_fix_task(db.databases["libraries_io"], question, incorrect_query)
+incorrect_query = "SELECT TypePet, AVG(weight) AS 'Average Weight' FROM Pets GROUP BY PetType"
+eval_fix_task = CoreEvalFix(llm=VertexAI(model_name="text-bison-32k"), num_retries=10)
+eval_fix_task(db, question, incorrect_query)
 
-print("done")
+print("Done")

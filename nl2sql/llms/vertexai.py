@@ -15,20 +15,35 @@
 """
 Used to get an instance of the Vertex AI LLM
 """
+from typing import ClassVar
 from google.cloud import aiplatform_v1beta1
 from google.protobuf import struct_pb2
-from langchain.llms.vertexai import VertexAI
+import langchain_google_vertexai as vertexai
 
-
-class ExtendedVertexAI(VertexAI):
+class VertexAI(vertexai.VertexAI):
     """
     Adds utility functions to GooglePalm
     """
+    model_token_limits: ClassVar[dict[str, int]] = {
+        "text-bison" : {"input": 2048, "output": 1024},
+        "text-bison-32k": {"input": 24000, "output": 8000},
+        "gemini-1.5-flash-001": {"input": 1_040_000, "output": 8000},
+        "gemini-1.0-pro-002": {"input": 24000, "output": 8000},
+        "gemini-1.5-pro-001": {"input": 2_095_000, "output": 8000},
+    }
 
     def get_num_tokens(self, text: str) -> int:
         """
         Returns the token count for some text
         """
+        model_name = str(self.model_name)
+        if (
+            model_name.startswith("gemini")
+            and
+            model_name in self.model_token_limits
+        ):
+            return self.client.count_tokens(text).total_tokens
+
         token_struct = struct_pb2.Struct()
         token_struct.update({"content": text})
         return (
@@ -48,40 +63,6 @@ class ExtendedVertexAI(VertexAI):
         """
         Returns the maximum number of input tokens allowed
         """
-        if self.metadata:
-            return self.metadata["max_input_tokens"]
-        raise ValueError("LLM initialized without max_input_tokens")
-
-
-def text_bison_latest(
-    max_output_tokens=1024, temperature=0.1, top_p=0.8, top_k=40, candidate_count=3
-) -> ExtendedVertexAI:
-    """
-    Returns an Instance of Vertex AI LLM
-    """
-    return ExtendedVertexAI(
-        model_name="text-bison",
-        max_output_tokens=max_output_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        top_k=top_k,
-        n=candidate_count,
-        metadata={"max_input_tokens": 3000},
-    )
-
-
-def text_bison_32k(
-    max_output_tokens=8000, temperature=0.1, top_p=0.8, top_k=40
-) -> ExtendedVertexAI:
-    """
-    Returns an Instance of Vertex AI LLM
-    """
-    return ExtendedVertexAI(
-        model_name="text-bison-32k",
-        max_output_tokens=max_output_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        top_k=top_k,
-        n=1,
-        metadata={"max_input_tokens": 24000},
-    )
+        if self.model_name not in self.model_token_limits:
+            raise NotImplementedError
+        return self.model_token_limits[self.model_name]["input"]
