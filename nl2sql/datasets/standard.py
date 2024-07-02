@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Allows importing and Spider Dataset
+Allows importing and using Standard Datasets
 """
 import io
 import json
@@ -82,9 +82,14 @@ SpiderCoreSpec = TypedDict(
 
 
 class Spider(StandardDataset):
+    """
+    Allows downloading and interacting with the Spider Dataset
+    """
+
     dataset_id: str = "Spider"
     dataset_splits: list[str] = ["test", "train"]
     dataset_url: str = "https://storage.googleapis.com/github-repo/nl2sql/spider.zip"
+    bucket_name: str = "github-repo"
     temp_extracted_loc = os.path.join(
         gettempdir(), "NL2SQL_SPIDER_DATASET", "extracted"
     )
