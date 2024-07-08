@@ -26,7 +26,7 @@ from langchain.schema import BasePromptTemplate
 from loguru import logger
 from pydantic import BaseModel, SkipValidation
 from typing_extensions import Literal
-
+from typing import Optional
 from nl2sql.assets.prompts import FewShot as FewShotPrompts
 from nl2sql.assets.prompts import ZeroShot as ZeroShotPrompts
 from nl2sql.datasets.base import Database
@@ -115,9 +115,9 @@ class _SqlGeneratorPrompts:
     def custom_prompt(
         cls,
         prompt_template: BasePromptTemplate,
-        parser: StructuredOutputParser | None = None,
+        parser: Optional[StructuredOutputParser] = None,
         post_processor: Callable = lambda x: x,
-        prompt_template_id: str | None = None,
+        prompt_template_id: Optional[str] = None,
     ) -> _CoreSqlGeneratorPrompt:
         """
         Use a custom PromptTemplate for SQL Generation.
