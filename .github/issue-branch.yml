@@ -1,0 +1,10 @@
+autoLinkIssue: true
+autoCloseIssue: true
+defaultBranch: 'dev'
+openDraftPR: true
+copyIssueDescriptionToPR: true
+copyIssueLabelsToPR: true
+copyIssueAssigneeToPR: true
+copyIssueProjectsToPR: true
+copyIssueMilestoneToPR: true
+conventionalPrTitles: true

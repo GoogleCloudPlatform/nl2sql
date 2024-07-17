@@ -1,0 +1,15 @@
+on:
+  issues:
+    types: [ assigned ]
+  # The pull_request events below are only needed for pull-request related features.
+  pull_request:
+    types: [ opened, closed ]
+
+jobs:
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue Branch
+        uses: robvanderleek/create-issue-branch@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
