@@ -25,7 +25,7 @@ from nl2sql.executors.linear_executor import (
     BaseLinearExecutor,
     BaseLinearExecutorResult,
 )
-from nl2sql.llms.vertexai import text_bison_32k, text_bison_latest
+from nl2sql.llms.vertexai import gemini_flash
 from nl2sql.tasks.column_selection import BaseColumnSelectionTask
 from nl2sql.tasks.column_selection.core import CoreColumnSelector
 from nl2sql.tasks.eval_fix import BaseEvalFixTask
@@ -56,18 +56,17 @@ class CoreLinearExecutor(BaseLinearExecutor):
     ] = "Executor.LinearExecutor.CoreLinearExecutor"
 
     core_table_selector: BaseTableSelectionTask | None = Field(
-        default_factory=lambda: CoreTableSelector(llm=text_bison_32k())
+        default_factory=lambda: CoreTableSelector(llm=gemini_flash())
     )
     core_column_selector: BaseColumnSelectionTask | None = Field(
-        default_factory=lambda: CoreColumnSelector(llm=text_bison_32k())
+        default_factory=lambda: CoreColumnSelector(llm=gemini_flash())
     )
     core_sql_generator: BaseSqlGenerationTask = Field(
-        default_factory=lambda: CoreSqlGenerator(llm=text_bison_32k())
+        default_factory=lambda: CoreSqlGenerator(llm=gemini_flash())
     )
     core_eval_fix: BaseEvalFixTask = Field(
-        default_factory=lambda: CoreEvalFix(llm=text_bison_32k())
+        default_factory=lambda: CoreEvalFix(llm=gemini_flash())
     )
-
 
     def __call__(self, db_name: str, question: str) -> CoreLinearExecutorResult:
         """
@@ -128,8 +127,8 @@ class CoreLinearExecutor(BaseLinearExecutor):
                         {"eval_fix": eval_fix_result.intermediate_steps}
                     )
                     result_generated_query = eval_fix_result.modified_query
-        
-        #Generated SQL cleanup : Remove Backticks if any
+
+        # Generated SQL cleanup : Remove Backticks if any
         if result_generated_query is not None:
             result_generated_query = re.sub("```|sql", "",
                                             result_generated_query)

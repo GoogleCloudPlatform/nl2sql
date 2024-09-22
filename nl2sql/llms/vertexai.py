@@ -17,8 +17,7 @@ Used to get an instance of the Vertex AI LLM
 """
 from google.cloud import aiplatform_v1beta1
 from google.protobuf import struct_pb2
-from langchain.llms.vertexai import VertexAI
-
+from langchain_google_vertexai import VertexAI
 
 class ExtendedVertexAI(VertexAI):
     """
@@ -51,6 +50,23 @@ class ExtendedVertexAI(VertexAI):
         if self.metadata:
             return self.metadata["max_input_tokens"]
         raise ValueError("LLM initialized without max_input_tokens")
+
+
+def gemini_flash(
+    max_output_tokens=8192, temperature=0.1, top_p=0.8, top_k=40, candidate_count=3
+) -> VertexAI:
+    """
+    Returns an Instance of Vertex AI LLM
+    """
+    return VertexAI(
+        model_name="gemini-1.5-flash",
+        max_output_tokens=max_output_tokens,
+        temperature=temperature,
+        top_p=top_p,
+        top_k=top_k,
+        n=candidate_count,
+        metadata={"max_input_tokens": 24000},
+    )
 
 
 def text_bison_latest(

@@ -17,16 +17,16 @@ Allows classifying unstructured text into defined categories.
 """
 
 from typing import Literal
-from langchain.embeddings import VertexAIEmbeddings
+from langchain_google_vertexai import VertexAIEmbeddings
 from langchain.schema import Document
-from langchain.vectorstores.chroma import Chroma
+from langchain_community.vectorstores import Chroma
 
 _yes_no_classifier = Chroma.from_documents(
     [
         Document(page_content="No", metadata={"relevant": "False"}),
         Document(page_content="Yes", metadata={"relevant": "True"}),
     ],
-    VertexAIEmbeddings(),
+    VertexAIEmbeddings(model_name="textembedding-gecko"),
 ).as_retriever(search_type="similarity", search_kwargs={"k": 1})
 
 

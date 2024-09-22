@@ -8,9 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
 datasets = "^2.14.5"
-sqlalchemy = "1.4.50"
-black = "^23.10.0"
-langchain = "^0.0.334"
+sqlalchemy = "^2.0.35"
+black = "^24.8.0"
+langchain = "^0.3.0"
 pydantic = "^2.5.1"
 google-cloud = "^0.34.0"
 docker = "^6.1.3"
@@ -50,6 +50,8 @@ py-cpuinfo = "^9.0.0"
 types-requests = "^2.31.0.20240106"
 types-psutil = "^5.9.5.20240106"
 radon = "^6.0.1"
+langchain-community = "^0.3.0"
+langchain-google-vertexai = "^2.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
