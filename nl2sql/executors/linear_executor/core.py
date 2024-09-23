@@ -56,18 +56,25 @@ class CoreLinearExecutor(BaseLinearExecutor):
     ] = "Executor.LinearExecutor.CoreLinearExecutor"
 
     core_table_selector: BaseTableSelectionTask | None = Field(
-        default_factory=lambda: CoreTableSelector(llm=VertexAI(model_name="text-bison-32k"))
+        default_factory=lambda: CoreTableSelector(
+            llm=VertexAI(model_name="gemini-1.5-flash-001")
+        )
     )
     core_column_selector: BaseColumnSelectionTask | None = Field(
-        default_factory=lambda: CoreColumnSelector(llm=VertexAI(model_name="text-bison-32k"))
+        default_factory=lambda: CoreColumnSelector(
+            llm=VertexAI(model_name="gemini-1.5-flash-001")
+        )
     )
     core_sql_generator: BaseSqlGenerationTask = Field(
-        default_factory=lambda: CoreSqlGenerator(llm=VertexAI(model_name="text-bison-32k"))
+        default_factory=lambda: CoreSqlGenerator(
+            llm=VertexAI(model_name="gemini-1.5-flash-001")
+        )
     )
     core_eval_fix: BaseEvalFixTask = Field(
-        default_factory=lambda: CoreEvalFix(llm=VertexAI(model_name="text-bison-32k"))
+        default_factory=lambda: CoreEvalFix(
+            llm=VertexAI(model_name="gemini-1.5-flash-001")
+        )
     )
-
 
     def __call__(self, db_name: str, question: str) -> CoreLinearExecutorResult:
         """
@@ -117,9 +124,7 @@ class CoreLinearExecutor(BaseLinearExecutor):
             if result_generated_query:
                 try:
                     eval_fix_result = self.core_eval_fix(
-                        db=database,
-                        question=question,
-                        query=result_generated_query
+                        db=database, question=question, query=result_generated_query
                     )
                 except Exception as exc:
                     logger.error(f"EvalFix failed: {exc}")
@@ -129,10 +134,9 @@ class CoreLinearExecutor(BaseLinearExecutor):
                     )
                     result_generated_query = eval_fix_result.modified_query
 
-        #Generated SQL cleanup : Remove Backticks if any
+        # Generated SQL cleanup : Remove Backticks if any
         if result_generated_query is not None:
-            result_generated_query = re.sub("```|sql", "",
-                                            result_generated_query)
+            result_generated_query = re.sub("```|sql", "", result_generated_query)
 
         return CoreLinearExecutorResult(
             db_name=db_name,
